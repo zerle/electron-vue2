@@ -22,7 +22,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 let whiteListedModules = ['vue', 'vuex', 'vue-router', 'axios', 'vue-electron']
 
 let rendererConfig = {
-  devtool: process.env.NODE_ENV === 'production' ?  'source-map' : 'eval-cheap-module--source-map',
+  devtool: process.env.NODE_ENV === 'production' ?  'source-map' : 'eval-cheap-module-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
