@@ -22,7 +22,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 let whiteListedModules = ['vue', 'vuex', 'vue-router', 'axios', 'vue-electron']
 
 let rendererConfig = {
-  devtool: 'eval-cheap-module-source-map',
+  devtool: process.env.NODE_ENV === 'production' ?  'source-map' : 'eval-cheap-module--source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
@@ -38,8 +38,6 @@ let rendererConfig = {
           options: {
             extractCSS: process.env.NODE_ENV === 'production',
             loaders: {
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader',
               less: 'vue-style-loader!css-loader!less-loader'
             }
           }
@@ -166,8 +164,6 @@ if (process.env.NODE_ENV !== 'production') {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  rendererConfig.devtool = ''
-
   rendererConfig.plugins.push(
     new MinifyPlugin(),
     new CopyWebpackPlugin([

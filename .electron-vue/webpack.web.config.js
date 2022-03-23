@@ -12,7 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
 let webConfig = {
-  devtool: 'eval-cheap-module--source-map',
+  devtool: process.env.NODE_ENV === 'production' ?  'source-map' : 'eval-cheap-module--source-map',
   entry: {
     web: path.join(__dirname, '../src/renderer/main.js')
   },
@@ -25,8 +25,6 @@ let webConfig = {
           options: {
             extractCSS: true,
             loaders: {
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader',
               less: 'vue-style-loader!css-loader!less-loader'
             }
           }
@@ -124,8 +122,6 @@ let webConfig = {
  * Adjust webConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  webConfig.devtool = ''
-
   webConfig.plugins.push(
     new MinifyPlugin(),
     new CopyWebpackPlugin([
